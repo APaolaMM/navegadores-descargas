@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Web Browsing and Downloads</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 2_Web Browsing and Downloads.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario Navegadores y Descargas</legend>
+	<div id="test">
+		<div class="cuestion">1. Un inconveniente de la interpretaci&oacute;n de JavaScript en navegadores web corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Un ciberdelincuente puede explotar las vulnerabilidades dentro del navegador web.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Carencia de soporte investigativo.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Falta de aislamiento de los datos. &nbsp;</label>
+		</div>
+		<div class="cuestion">2. “Fichero que guarda cierta informaci&otilde;n que podr&itilde;a reutilizarse en determinada p&atilde;gina web, como preferencias de usuario”. La definici&otilde;n anterior corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Acceso. &nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Exfiltraci&itilde;n &nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Cookies. &nbsp;</label>
+		</div>
+		<div class="cuestion">3. “Fue muy utilizado para contenido audiovisual en páginas web. No es muy frecuente, pero algunos sitios web lo utilizan”. El enunciado anterior corresponde a: </div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Flash. &nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : JavaScript. &nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : HTML. &nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. Un inconveniente de la interpretación de JavaScript en navegadores web corresponde a:",
+				respuestas:
+				{
+					a: "Un ciberdelincuente puede explotar las vulnerabilidades dentro del navegador web.",
+					b: "Carencia de soporte investigativo.",
+					c: "Falta de aislamiento de los datos.",
+				},
+				respuestaCorrecta: "a",
+			},
+			{
+				pregunta: "2. “Fichero que guarda cierta información que podría reutilizarse en determinada página web, como preferencias de usuario”. La definición anterior corresponde a:",
+				respuestas:
+				{
+					a: "Acceso.",
+					b: "Exfiltración.",
+					c: "Cookies.",
+				},
+				respuestaCorrecta: "c",
+			},
+			{
+				pregunta: "3. “Fue muy utilizado para contenido audiovisual en páginas web. No es muy frecuente, pero algunos sitios web lo utilizan”. El enunciado anterior corresponde a:",
+				respuestas:
+				{
+					a: "Flash.",
+					b: "JavaScript.",
+					c: "HTML.",
+				},
+				respuestaCorrecta: "a",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
